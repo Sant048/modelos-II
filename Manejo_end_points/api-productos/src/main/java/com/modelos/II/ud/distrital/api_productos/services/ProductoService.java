@@ -13,8 +13,9 @@ public class ProductoService {
 
     private List<Producto> productos = new ArrayList<>();
     private Long idCounter = 1L;  // Empezamos el contador de IDs en 1
-    private static final String FILE_NAME = "productos.dat";
+    private static final String FILE_NAME = "productos.dat"; 
     private static final String COUNTER_FILE = "idCounter.dat";
+    
 
     public ProductoService() {
         cargarProductos();
