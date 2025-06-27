@@ -1,14 +1,13 @@
-# Imagen base ligera con Java 17
-FROM eclipse-temurin:17-jdk-alpine
-
-# Carpeta dentro del contenedor
+# Etapa 1: compila el proyecto con Gradle
+FROM gradle:8.5-jdk17 AS build
 WORKDIR /app
+COPY . .
+RUN gradle build -x test
 
-# Copia el JAR compilado
-COPY build/libs/api-productos-0.0.1-SNAPSHOT.jar app.jar
-
-# Expone el puerto por defecto
+# Etapa 2: imagen final
+FROM eclipse-temurin:17-jdk-alpine
+WORKDIR /app
+COPY --from=build /app/build/libs/*.jar app.jar
+COPY productos.dat productos.dat
 EXPOSE 8080
-
-# Comando para ejecutar la app
 ENTRYPOINT ["java", "-jar", "app.jar"]
